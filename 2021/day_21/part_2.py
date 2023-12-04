@@ -1,6 +1,5 @@
-# This problem essentially asks: Out of all possible
-# games, in how many does each player win? And who
-# wins more?
+# This problem essentially asks: In how many ways
+# can each player win? And who has more?
 
 from collections import Counter, defaultdict
 from itertools import product
