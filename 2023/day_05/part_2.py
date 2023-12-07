@@ -7,7 +7,6 @@ def chunk(iterable, n):
     return zip(*iterators)
 
 
-
 class Range:
     def __init__(self, start, stop):
         self.start = start
