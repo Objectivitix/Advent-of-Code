@@ -54,10 +54,10 @@ class Hand:
         if self.jokers_n == 5:
             return Tier.FIVE_OF_A_KIND
 
-        indicators = [n for _, n in self.cards_n.most_common(2)]
-        indicators[0] += self.jokers_n
+        tier_determinants = [n for _, n in self.cards_n.most_common(2)]
+        tier_determinants[0] += self.jokers_n
 
-        match indicators:
+        match tier_determinants:
             case [5]:
                 return Tier.FIVE_OF_A_KIND
             case [4, *_]:
