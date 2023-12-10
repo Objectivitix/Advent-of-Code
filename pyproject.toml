@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "advent-of-code"
+version = "0.0.0"
+description = "My solutions to the Advent of Code event."
+authors = ["Objectivitix <79152594+Objectivitix@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.26.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
