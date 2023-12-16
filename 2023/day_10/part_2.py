@@ -45,8 +45,29 @@ def get_adjs(i, j, dirs, m, n):
             yield adj_i, adj_j, dir
 
 
+def get_diag(start, end):
+    curr = start
+
+    while curr != end:
+        yield curr
+        curr = curr[0] + 1, curr[1] - 1
+
+    yield curr
+
+
 def get_diags(m, n):
-    pass
+    starts = [
+        *((0, j) for j in range(n)),
+        *((i, n - 1) for i in range(1, m))
+    ]
+
+    ends = [
+        *((i, 0) for i in range(m)),
+        *((m - 1, j) for j in range(1, n))
+    ]
+
+    for start, end in zip(starts, ends):
+        yield list(get_diag(start, end))
 
 
 def parse_raw(raw, dims):
@@ -108,24 +129,25 @@ cleaned = [
 
 total = 0
 
-for diag in get_diags(WIDTH, HEIGHT):
-    print(diag)
+for diag in get_diags(HEIGHT, WIDTH):
+    # Scan diagonally to eliminate ambiguity.
+    # Corners are essentially encountering two pipes.
     line = (
         "".join(cleaned[i][j] for (i, j) in diag)
-        .replace("7", "-|")
-        .replace("L", "|-")
+        .replace("F", "-|")
+        .replace("J", "|-")
     )
 
     indices = []
 
     for i, char in enumerate(line):
-        if char in "-|FJ":
+
+        # A pipe marks an inside-outside flip.
+        # Remember that S is a pipe, too!
+        if char in "-|7LS":
             indices.append(i)
 
-    print(line)
-    # print(list(chunk(indices, 2)))
     for a, b in chunk(indices, 2):
         total += b - a - 1
 
 print(total)
-# print("\n".join("".join(row) for row in cleaned).translate(str.maketrans("|-LJ7F", "│─└┘┐┌")))
