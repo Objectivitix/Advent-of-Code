@@ -65,7 +65,6 @@ def part_one():
     return energize((E, 0+0j))
 
 
-
 def part_two():
     start_states = [
         *((N, complex(HEIGHT - 1, j)) for j in range(WIDTH)),
