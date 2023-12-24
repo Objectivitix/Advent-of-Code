@@ -95,8 +95,4 @@ while not pq.empty():
             dist[new] = alt_dist
             pq.put((alt_dist, new))
 
-print(min(
-    dist[State(TARGET, dir, streak)]
-    for dir in DELTAS_4
-    for streak in range(1, 4)
-))
+print(dist[curr])
