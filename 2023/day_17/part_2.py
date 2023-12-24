@@ -57,11 +57,9 @@ with open("input.txt") as file:
 SOURCE = P(0, 0)
 TARGET = P(HEIGHT - 1, WIDTH - 1)
 
-# Notice the absence of a `visited` set. This is
-# because Dijkstra's algorithm guarantees that nodes
-# are at most popped from the priority queue once.
-# When a node V is processed, we'll have found a
-# shortest path from start to V.
+# Even with these restrictions, Dijkstra's algorithm
+# still guarantees that every state popped from the
+# PQ has its distance finalized. Thus it is correct. 
 dist = defaultdict(lambda: float("inf"))
 pq = PriorityQueue()
 
