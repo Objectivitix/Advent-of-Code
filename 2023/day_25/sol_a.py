@@ -8,7 +8,7 @@
 # trials, let alone |V| choose 2 trials. So since we
 # know the min cut size is 3 ... I "bogosort" it :P
 #
-# Better solution in a separate file, coming soon.
+# This is my initial solution. See sol_b and sol_c.
 
 import random
 from collections import defaultdict
@@ -68,21 +68,18 @@ class Graph:
 
 def parse_raw(file):
     apparatus = Graph()
-    components = set()
 
     for line in file.read().splitlines():
         component, neighbors = line.split(": ")
-        components.add(component)
 
         for neighbor in neighbors.split(" "):
             apparatus.add_edge(component, neighbor)
-            components.add(neighbor)
 
-    return apparatus, len(components)
+    return apparatus
 
 
 with open("input.txt") as file:
-    APPARATUS, NODES_N = parse_raw(file)
+    APPARATUS = parse_raw(file)
 
 while True:
     s, t, size = APPARATUS.sample_karger_cut()
