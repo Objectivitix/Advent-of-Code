@@ -2,12 +2,10 @@ import functools
 import re
 
 CONTIGUOUS_GROUP_RE = (
-    r"(?=("
     r"^[?#]{{{length}}}(?=[?\.])"
     r"|(?<=[?\.])[?#]{{{length}}}$"
     r"|^[?#]{{{length}}}$"
     r"|(?<=[?\.])[?#]{{{length}}}(?=[?\.])"
-    r"))"
 )
 
 
@@ -21,22 +19,17 @@ def parse_raw(file):
         )
 
 
-def clear(springs):
-    return springs.replace("?", ".")
-
-
-def contains_contiguous_group(cleared_springs):
-    return bool(re.search(r"#+", cleared_springs))
+def overlap(regex):
+    return r"(?=({}))".format(regex)
 
 
 def get_possible_placements(springs, length):
-    pattern = CONTIGUOUS_GROUP_RE.format(length=length)
+    pattern = overlap(CONTIGUOUS_GROUP_RE.format(length=length))
 
     for match in re.finditer(pattern, springs):
         capture_start, capture_end = match.span(1)
 
-        processed = clear(springs[:capture_start])
-        if contains_contiguous_group(processed):
+        if "#" in springs[:capture_start]:
             continue
 
         yield capture_end + 1
@@ -48,17 +41,12 @@ def count_ways(springs, condition):
         return 0
 
     if not condition:
-        return not contains_contiguous_group(clear(springs))
+        return "#" not in springs
 
-    ways_n = 0
-
-    for end in get_possible_placements(springs, condition[0]):
-        sub_springs = springs[end:]
-        sub_condition = condition[1:]
-
-        ways_n += count_ways(sub_springs, sub_condition)
-
-    return ways_n
+    return sum(
+        count_ways(springs[end:], condition[1:])
+        for end in get_possible_placements(springs, condition[0])
+    )
 
 
 with open("input.txt") as file:
