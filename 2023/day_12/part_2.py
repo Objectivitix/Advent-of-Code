@@ -25,10 +25,8 @@ def clear(springs):
     return springs.replace("?", ".")
 
 
-def contains_contiguous_group(springs):
-    pattern = CONTIGUOUS_GROUP_RE.replace(r"{{{length}}}", r"+")
-
-    return bool(re.search(pattern, springs))
+def contains_contiguous_group(cleared_springs):
+    return bool(re.search(r"#+", cleared_springs))
 
 
 def get_possible_placements(springs, length):
